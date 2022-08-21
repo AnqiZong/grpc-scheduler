@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option go_package = "./;proto";
+
+// 定义客户端要发送的数据格式 
+message Request {
+    message nodeMatric {
+        repeated double metric = 1;
+    }
+    repeated nodeMatric state = 1;
+	  double reward  = 2;
+	  int32 action  = 3;
+    repeated nodeMatric nextState = 4;
+    repeated string labels = 5;
+    repeated string filterNodes = 6;
+    map<string,int32> nodeMap = 7; 
+
+}
+
+// 定义服务端返回的数据格式
+message Response {
+  repeated int32 qValues = 1;
+}
+
+// 定义可以被远程调用的函数
+service UseDQN {
+  rpc GetQValues (Request) returns (Response) {}
+}
